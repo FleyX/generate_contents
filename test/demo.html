@@ -1,0 +1,44 @@
+<html>
+
+<head>
+    <title>目录自动生成测试</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="../src/generate_list_content.css">
+</head>
+
+<body>
+    <style>
+        .para {
+            width: 100%;
+            height: 300px;
+        }
+    </style>
+    <div id="list"></div>
+    <div id="content">
+        <h1>标题1</h1>
+        <h3>标题1.1</h3>
+        <div class="para"></div>
+        <h5>标题1.1.1</h5>
+        <div class="para"></div>
+        <h5>标题1.1.2</h5>
+        <div class="para"></div>
+        <h5>标题1.1.3</h5>
+        <div class="para"></div>
+        <h1>标题2</h1>
+        <div class="para"></div>
+        <h2>标题2.1</h2>
+        <div class="para"></div>
+        <h1>标题3</h1>
+        <div class="para"></div>
+        <h1>标题4</h1>
+    </div>
+    <script src="../dist/generate_list_content.js"></script>
+    <script>
+        new CreateListContent("content", {
+            type: 'id',
+            data: 'list'
+        })
+    </script>
+</body>
+
+</html>
