@@ -2,7 +2,7 @@
 /**
  * 使用原生js实现目录生成
  */
-const I64BIT_TABLE = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-'.split('');
+// import * as $ from 'jquery';
 class CreateListContent {
     /**
      * @param {string} blogId  要生成目录的快id
@@ -13,20 +13,23 @@ class CreateListContent {
         this.blogId = blogId;
         this.location = location;
         this.list = [];
-        this.nodeList = [];
         if (location['type'] == 'id') {
             //准备一个div放目录
-            let item = document.getElementById(location['data']);
+            let item = $(`#${location['data']}`);
             if (item == null) {
                 throw new Error(`此${location['value']}无法生成目录`);
             }
             this.container = item;
         }
         else {
-            this.container = document.createElement('div');
-            this.container.setAttribute('id', 'menuList');
+            this.container = $(`<div id="menuList"></div>`);
+            $('body').append(this.container);
         }
+        this.container.addClass('list-content-main');
     }
+    /**
+     * 开始构建
+     */
     build() {
         let blogNode = document.getElementById(this.blogId);
         if (blogNode == null) {
@@ -34,30 +37,37 @@ class CreateListContent {
         }
         let children = blogNode.children;
         //标题列表
-        let list = [];
         for (let i = 0; i < children.length; i++) {
             //非h标签不作处理
-            if (/h\d/.test(children[i].nodeName)) {
+            if (/[hH]\d/.test(children[i].nodeName)) {
                 //强制类型转换
-                this.addToList(list, children[i]);
+                this.addToList(children[i]);
             }
         }
         //构建dom
-        this.createDom(list);
+        this.createDom();
     }
-    createDom(list) {
-        let str = '';
-        let container = document.createElement("<div id='idContainer'></div>");
-        for (let i = 0; i < list.length; i++) {
-            str += `<div id="${list[i].titleId}">${list[i].label}</div>`;
-            let node = document.createElement(str);
-            container.appendChild(node);
-            this.nodeList.push(node);
-        }
+    /**
+     * 创建dom节点
+     * @param list 标题列表
+     */
+    createDom() {
+        this.list.forEach(item => {
+            let str = '';
+            for (let j = 1; j < item.level; j++) {
+                str += '&emsp;';
+            }
+            item.node = $(`<div id="${item.titleId}" class="item">${str + item.label}</div>`);
+            this.container.append(item.node);
+        });
     }
-    addToList(list, node) {
+    /**
+     * 插入一个标题到标题信息列表中
+     * @param node 待插入节点
+     */
+    addToList(node) {
         //id计算hash值作为id
-        let id = this.hash(node.textContent || '');
+        let id = Date.now().toString();
         node.setAttribute('id', id);
         let item = {
             label: node.textContent || '',
@@ -65,34 +75,19 @@ class CreateListContent {
             titleId: 'title_' + id,
             tag: node.tagName,
             level: 0,
-            height: node.offsetTop
+            height: node.offsetTop,
+            node: null
         };
         let index = this.tagList.indexOf(item.tag);
         if (index == -1) {
+            item.level = this.tagList.length + 1;
             this.tagList.push(item.tag);
         }
         else {
-            item.level = index;
-            this.tagList.slice(index);
+            item.level = index + 1;
+            this.tagList.splice(index + 1);
         }
-        list.push(item);
-    }
-    hash(input) {
-        var hash = 5381;
-        var i = input.length - 1;
-        if (typeof input == 'string') {
-            for (; i > -1; i--)
-                hash += (hash << 5) + input.charCodeAt(i);
-        }
-        else {
-            for (; i > -1; i--)
-                hash += (hash << 5) + input[i];
-        }
-        var value = hash & 0x7fffffff;
-        var retValue = '';
-        do {
-            retValue += I64BIT_TABLE[value & 0x3f];
-        } while ((value >>= 6));
-        return retValue;
+        this.list.push(item);
     }
 }
+//# sourceMappingURL=generate_list_content.js.map

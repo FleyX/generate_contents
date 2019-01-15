@@ -1,5 +1,12 @@
-#menuList {
+.list-content-main {
     position: fixed;
     left: 0;
     top: 20%;
+}
+
+.list-content-main>.item {
+    height: 1.5em;
+    line-height: 1.5em;
+    padding-right: 1em;
+    cursor: pointer;
 }
