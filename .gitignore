@@ -18,4 +18,4 @@ bin-release/
 # information for Eclipse / Flash Builder.
 
 .vscode
-.node_modules
+node_modules

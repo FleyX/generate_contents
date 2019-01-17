@@ -16,7 +16,7 @@
     <div id="list"></div>
     <div id="content">
         <h1>标题1</h1>
-        <h3>标题1.1</h3>
+        <h3>标题1.1asdfasdfasdfasdfasdfasdfasdfasdfasdfasdf</h3>
         <div class="para"></div>
         <h5>标题1.1.1</h5>
         <div class="para"></div>
@@ -35,10 +35,16 @@
     <script src="http://libs.baidu.com/jquery/2.1.1/jquery.min.js"></script>
     <script src="../dist/generate_list_content.js"></script>
     <script>
-        new CreateListContent("content", {
+        window.titleList = new CreateListContent("content", {
+            // type: 'fixed',
+            // data: {
+            //     position: 'right',
+            //     top: "20%"
+            // }
             type: 'id',
             data: 'list'
-        }).build();
+        });
+        titleList.build();
     </script>
 </body>
 
