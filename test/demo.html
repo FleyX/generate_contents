@@ -36,13 +36,11 @@
     <script src="../dist/generate_list_content.js"></script>
     <script>
         window.titleList = new CreateListContent("content", {
-            // type: 'fixed',
-            // data: {
-            //     position: 'right',
-            //     top: "20%"
-            // }
-            type: 'id',
-            data: 'list'
+            type: 'fixed',
+            data: {
+                position: 'right',
+                top: "20%"
+            }
         });
         titleList.build();
     </script>

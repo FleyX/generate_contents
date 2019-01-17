@@ -51,7 +51,10 @@
 .list-content-main .fork {
   font-size: 0.7em;
   text-align: right;
+  padding-top: 1em;
+  padding-right: 0.5em;
 }
 .list-content-main .fork a {
   text-decoration: none;
+  color: black !important;
 }

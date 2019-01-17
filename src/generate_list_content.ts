@@ -47,6 +47,10 @@ class CreateListContent {
    * @param {object} location  目录生成位置 type:fixed,blockId
    */
   constructor(blogId: string, location: object) {
+    //判断目标是否存在
+    if (document.getElementById(blogId) == null) {
+      throw new Error('目标不存在');
+    }
     window['createListContent'] = this;
     this.blogId = blogId;
     this.location = location;
@@ -74,7 +78,7 @@ class CreateListContent {
         .css(`border-bottom-${dirction}-radius`, 0)
         .css(dirction == 'left' ? 'right' : 'left', '-1.7em')
         .click(() => {
-          if (this.container.css(dirction).startsWith('0')) {
+          if (this.container.css(dirction) == '0px') {
             this.container.css(dirction, '-15.4em');
           } else {
             this.container.css(dirction, '0');
@@ -89,11 +93,8 @@ class CreateListContent {
    * 开始构建
    */
   public build(): void {
-    let blogNode = document.getElementById(this.blogId);
-    if (blogNode == null) {
-      return;
-    }
-    let children = blogNode.children;
+    let blogNode = $('#' + this.blogId);
+    let children = blogNode.children();
     //标题列表
     for (let i = 0; i < children.length; i++) {
       //非h标签不作处理
@@ -137,7 +138,7 @@ class CreateListContent {
       this.container.append(item.node);
     });
     this.container.append(
-      '<div class="fork"><a target="_black" href="https://github.com/FleyX/generate_contents">GenerateContents</a></div>'
+      '<div class="fork"><a target="_black" href="https://github.com/FleyX/generate_contents">了解更多</a></div>'
     );
   }
 
@@ -170,8 +171,11 @@ class CreateListContent {
     this.list.push(item);
   }
 
+  /**
+   * 计算当前页面处于什么位置
+   */
   private checkLocation(): void {
-    let scrollTop = $('body').scrollTop() || 0;
+    let scrollTop = $(document).scrollTop() || 0;
     for (let i = 0; i < this.list.length; i++) {
       if (scrollTop <= this.list[i].height) {
         if (this.list[i].node == this.currentTitle) {

@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "module": "commonjs", //指定生成哪个模块系统代码
-    "target": "ES2017", //目标代码类型
+    "target": "es5", //目标代码类型
     "noImplicitAny": false, //在表达式和声明上有隐含的'any'类型时报错。
     "sourceMap": true, //用于debug,断点调试需打开
     "rootDir": "./src", //需要编译的目录
